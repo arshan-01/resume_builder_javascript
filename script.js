@@ -25,6 +25,25 @@ console.log("Hello, world!");
 // ii.	There should be ‘New Work Experience’ button which will show a form to enter work experience. Then there would be a ‘Add Work Experience ‘ button in the bottom of that form. When click on ‘Add Work Experience’ button the entered data will be a added to a table for view, so that the candidate can to delete or edit it.
 // k.	Generate CV button, clicking on which generate a proper CV at the bottom of the form.
 
+const AllSkills = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "React",
+  "Node",
+  "Express",
+  "MongoDB",
+  "Python",
+  "Django",
+  "C",
+  "C++",
+  "Java",
+  "PHP",
+  "Laravel",
+  "MySQL",
+  "PostgreSQL",
+];
+
 const Person = {
   fullName: "",
   mobileNumber: "",
