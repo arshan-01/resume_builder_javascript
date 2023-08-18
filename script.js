@@ -297,9 +297,72 @@ function GenerateCV() {
   GenerateResume();
 }
 
+const Refresh = (academicDetails) => {
+  const showAcademic = document.getElementById("showAcademic");
+  const academicHeading = document.getElementById("academicHeading");
+
+  console.log(academicDetails);
+
+  showAcademic.innerHTML = "";
+  academicDetails.map((academic) => {
+    showAcademic.innerHTML += `
+    </br>
+    <div class="row">
+    <div class="col-md-2">
+      <p>${academic.degree}</p>
+    </div>
+    <div class="col-md-3">
+      <p>${academic.institute}</p>
+    </div>
+    <div class="col-md-2">
+      <p>${academic.year}</p>
+    </div>
+    <div class="col-md-3">
+      <p>${academic.course}</p>
+    </div>
+    <div class="col-md-2">
+    <button class="btn btn-primary" onclick="editAcademic('${academic.id}', event)">Edit</button>
+    <button class="btn btn-danger" onclick="removeAcademic('${academic.id}', event)">Remove</button>
+
+    </div>
+  </div>
+    
+    `;
+  });
+};
+
+const editAcademic = (id, event) => {
+  event.preventDefault(); // Prevent form submission behavior
+  const academicDetail = Person.academicDetails.find(
+    (academic) => academic.id === id
+  );
+
+  // Fill the form with the current academic detail
+  document.getElementById("degree").value = academicDetail.degree;
+  document.getElementById("university").value = academicDetail.institute;
+  document.getElementById("completion-year").value = academicDetail.year;
+  document.getElementById("course-title").value = academicDetail.course;
+};
+
+// Remove Academic Details
+const removeAcademic = (id, event) => {
+  event.preventDefault(); // Prevent form submission behavior
+  const academicDetails = Person.academicDetails.filter(
+    (academic) => academic.id !== id
+  );
+  console.log(academicDetails);
+  Person.academicDetails = academicDetails;
+  Refresh(academicDetails);
+};
+
 const AddMoreAcademic = () => {
+  const uuid =
+    Math.random().toString(36).substring(2) + Date.now().toString(36);
+  console.log(uuid);
+
   // Populate AcademicDetails
   const academicDetail = {
+    id: uuid,
     degree: document.getElementById("degree").value,
     institute: document.getElementById("university").value,
     year: document.getElementById("completion-year").value,
@@ -307,6 +370,7 @@ const AddMoreAcademic = () => {
   };
   Person.academicDetails.push(academicDetail);
 
+  Refresh(Person.academicDetails);
   // Reset the form
   document.getElementById("degree").value = "";
   document.getElementById("university").value = "";
@@ -317,8 +381,11 @@ const AddMoreAcademic = () => {
 // Add Experience
 
 const AddMoreExperience = () => {
+  const uuid =
+    Math.random().toString(36).substring(2) + Date.now().toString(36);
   // Populate Work Experiences
   const workExperience = {
+    id: uuid,
     company: document.getElementById("company-name").value,
     position: document.getElementById("job-position").value,
     from: document.getElementById("date-from").value,
