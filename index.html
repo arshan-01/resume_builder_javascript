@@ -309,6 +309,8 @@
                             spellcheck="false"
                             onkeyup="handleTagInput(event)"
                           />
+                          <div id="suggestions" class="suggestions"></div>
+                          <!-- Add suggestions container -->
                         </div>
                       </div>
                     </div>
@@ -350,38 +352,59 @@
         <div class="col-lg-12">
           <div class="job-detail mt-2 p-4">
             <div class="custom-form">
-              <form>
+              <form id="form">
                 <div class="row">
                   <div class="col-lg-6">
-                    <div class="form-group app-label">
-                      <label for="industries" class="text-muted"
-                        >Select your Industries</label
-                      >
-                      <br />
-                      <!--List of skills with on click  -->
-                      <button type="button" class="btn btn-light m-2">
-                        Html
-                      </button>
+                    <div class="form-group app-label" id="available-industries">
+                      <div class="wrapper">
+                        <div class="content">
+                          <p>Select interested industries:</p>
+                          <input
+                            type="text"
+                            class="form-control resume"
+                            placeholder="Add an industry"
+                            id="industryInput"
+                            spellcheck="false"
+                            onkeyup="handleIndustryInput(event)"
+                          />
+                          <div id="IndustrySuggestions" class="IndustrySuggestions"></div>
+                          <!-- Add suggestions container -->
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group app-label" id="selected-industries">
+                        <label for="selected-industry" class="text-muted"
+                          >Selected Industries</label
+                        >
+                        <div class="wrapper">
+                          <div class="content">
+                            <ul id="industryList">
+                              <!-- Industries will be dynamically added here -->
+                            </ul>
+                            <div class="details">
+                              <button
+                                type="button"
+                                onclick="removeAllIndustries()"
+                              >
+                                Remove All
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-lg-6">
-                    <div class="form-group app-label">
-                      <label for="Selected Industries" class="text-muted"
-                        >Selected Industries</label
-                      >
-                      <br />
-                      <span type="button" class="btn btn-secondary m-2">
-                        Html
-                      </span>
-                    </div>
-                  </div>
+                 
                 </div>
               </form>
             </div>
           </div>
         </div>
-      </div>
+     
+
       <div class="row">
         <div class="col-lg-12">
           <h3 class="text-dark mt-5">Work Experience</h3>

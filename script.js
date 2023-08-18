@@ -25,7 +25,7 @@ console.log("Hello, world!");
 // ii.	There should be ‘New Work Experience’ button which will show a form to enter work experience. Then there would be a ‘Add Work Experience ‘ button in the bottom of that form. When click on ‘Add Work Experience’ button the entered data will be a added to a table for view, so that the candidate can to delete or edit it.
 // k.	Generate CV button, clicking on which generate a proper CV at the bottom of the form.
 
-const AllSkills = [
+const suggestedSkills = [
   "HTML",
   "CSS",
   "JavaScript",
@@ -42,6 +42,27 @@ const AllSkills = [
   "Laravel",
   "MySQL",
   "PostgreSQL",
+];
+
+const suggestedIndustries = [
+  "Software Development",
+  "Web Development",
+  "Mobile App Development",
+  "Data Science",
+  "Machine Learning",
+  "Artificial Intelligence",
+  "Cloud Computing",
+  "DevOps",
+  "Cyber Security",
+  "Digital Marketing",
+  "UI/UX Design",
+  "Graphic Design",
+  "Game Development",
+  "Blockchain",
+  "Internet of Things",
+  "Augmented Reality",
+  "Virtual Reality",
+  "Robotics",
 ];
 
 const Person = {
@@ -68,14 +89,15 @@ const Person = {
 // Handle Skills
 const tagList = document.getElementById("tagList");
 const tagInput = document.getElementById("tagInput");
+const suggestions = document.getElementById("suggestions"); // Suggestions container
 const form = document.getElementById("form"); // Get the form element
 
 const tags = [];
 
 function updateTagList() {
   tagList.innerHTML =
-    Person.skills && Person.skills.length > 0
-      ? Person.skills
+    tags && tags.length > 0
+      ? tags
           .map(
             (tag) => `
         <li class="tag">
@@ -91,30 +113,53 @@ function updateTagList() {
 }
 
 function addTag(tag) {
-  if (tag && !Person.skills.includes(tag.trim())) {
-    Person.skills.push(tag.trim());
+  if (tag && !tags.includes(tag.trim())) {
+    tags.push(tag.trim());
     tagInput.value = "";
+    suggestions.innerHTML = ""; // Clear suggestions
     updateTagList();
   }
 }
 
 function removeTag(tag) {
-  const index = Person.skills.indexOf(tag);
+  const index = tags.indexOf(tag);
   if (index !== -1) {
-    Person.skills.splice(index, 1);
+    tags.splice(index, 1);
     updateTagList();
   }
 }
 
 function handleTagInput(event) {
+  const inputSkill = tagInput.value.trim();
+  suggestions.innerHTML = ""; // Clear suggestions
+
+  if (inputSkill) {
+    const matchingSuggestions = suggestedSkills.filter(
+      (skill) =>
+        skill.toLowerCase().includes(inputSkill.toLowerCase()) &&
+        !tags.includes(skill)
+    );
+
+    const suggestionElements = matchingSuggestions.map((suggestion) => {
+      const suggestionElement = document.createElement("div");
+      suggestionElement.className = "suggestion";
+      suggestionElement.textContent = suggestion;
+      suggestionElement.addEventListener("click", () => addTag(suggestion));
+      return suggestionElement;
+    });
+
+    suggestions.innerHTML = "";
+    suggestions.append(...suggestionElements);
+  }
+
   if (event.key === "Enter" || event.key === ",") {
-    const tag = tagInput.value.replace(/,/g, "").trim();
+    const tag = inputSkill.replace(/,/g, "");
     addTag(tag);
   }
 }
 
 function removeAllTags() {
-  Person.skills.length = 0;
+  tags.length = 0;
   updateTagList();
 }
 
@@ -123,6 +168,90 @@ form.addEventListener("submit", function (event) {
 });
 
 updateTagList();
+
+// Interested Industries
+const industryList = document.getElementById("industryList");
+const industryInput = document.getElementById("industryInput");
+const industrySuggestions = document.getElementById("IndustrySuggestions"); // Suggestions container for industries
+
+const industries = [];
+
+function updateIndustryList() {
+  industryList.innerHTML =
+    industries && industries.length > 0
+      ? industries
+          .map(
+            (industry) => `
+        <li class="industry">
+          ${industry}
+          <span class="remove-industry" onclick="removeIndustry('${industry}')">&times;</span>
+        </li>
+      `
+          )
+          .join("")
+      : `<li class="industry">
+      No industries added yet
+      </li>`;
+}
+
+function addIndustry(industry) {
+  if (industry && !industries.includes(industry.trim())) {
+    industries.push(industry.trim());
+    industryInput.value = "";
+    industrySuggestions.innerHTML = ""; // Clear suggestions
+    updateIndustryList();
+  }
+}
+
+function removeIndustry(industry) {
+  const index = industries.indexOf(industry);
+  if (index !== -1) {
+    industries.splice(index, 1);
+    updateIndustryList();
+  }
+}
+
+function handleIndustryInput(event) {
+  const inputIndustry = industryInput.value.trim();
+  industrySuggestions.innerHTML = ""; // Clear suggestions
+
+  if (inputIndustry) {
+    const matchingSuggestions = suggestedIndustries.filter(
+      (industry) =>
+        industry.toLowerCase().includes(inputIndustry.toLowerCase()) &&
+        !industries.includes(industry)
+    );
+
+    const suggestionElements = matchingSuggestions.map((suggestion) => {
+      const suggestionElement = document.createElement("div");
+      suggestionElement.className = "suggestion";
+      suggestionElement.textContent = suggestion;
+      suggestionElement.addEventListener("click", () =>
+        addIndustry(suggestion)
+      );
+      return suggestionElement;
+    });
+
+    industrySuggestions.innerHTML = "";
+    industrySuggestions.append(...suggestionElements);
+  }
+
+  if (event.key === "Enter" || event.key === ",") {
+    const industry = inputIndustry.replace(/,/g, "");
+    addIndustry(industry);
+  }
+}
+
+function removeAllIndustries() {
+  industries.length = 0;
+  updateIndustryList();
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
+updateIndustryList();
 
 // Event listener for form submission
 function GenerateCV() {
@@ -160,7 +289,6 @@ function GenerateCV() {
   Person.academicDetails.push(academicDetail);
 
   // Populate Work Experiences
-  // Populate Work Experiences
   const workExperience = {
     company: document.getElementById("company-name").value,
     position: document.getElementById("job-position").value,
@@ -173,5 +301,3 @@ function GenerateCV() {
   // Do something with the populated Person object, such as displaying it or sending it to a server.
   console.log(Person);
 }
-
-// map all skills to the left box

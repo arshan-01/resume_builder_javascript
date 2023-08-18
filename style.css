@@ -123,3 +123,23 @@ body {
 .details button:hover {
   background: #2c52ed;
 }
+.suggestions {
+  position: absolute;
+  background-color: white;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 150px;
+  overflow-y: auto;
+  width: 33%;
+  z-index: 2;
+}
+
+.suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.suggestion:hover {
+  background-color: #f0f0f0;
+}
