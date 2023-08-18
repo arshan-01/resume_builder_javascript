@@ -419,22 +419,100 @@ const AddMoreAcademic = () => {
   document.getElementById("course-title").value = "";
 };
 
-// Add Experience
+const removeExperience = (id, event) => {
+  event.preventDefault(); // Prevent form submission behavior
+  const experienceDetail = Person.workExperiences.filter(
+    (experience) => experience.id !== id
+  );
+  console.log(experienceDetail);
+  Person.workExperiences = experienceDetail;
+  RefreshExperience(experienceDetail);
+};
+
+//  Refresh Experience
+const RefreshExperience = (workExperiences) => {
+  const showExperience = document.getElementById("showExperience");
+  const experienceHeading = document.getElementById("experienceHeading");
+
+  console.log(workExperiences);
+
+  showExperience.innerHTML = "";
+  workExperiences.map((experience) => {
+    showExperience.innerHTML += `
+    </br>
+    <div class="row">
+    <div class="col-md-2">
+      <p>${experience.company}</p>
+    </div>
+    <div class="col-md-3">
+      <p>${experience.position}</p>
+    </div>
+    <div class="col-md-2">
+
+      <p>${experience.from}</p>
+    </div>
+    <div class="col-md-2">
+      <p>${experience.to}</p>
+    </div>
+    <div class="col-md-2">
+      <p>${experience.location}</p>
+
+    </div>
+    <div class="col-md-1 d-flex">
+    <button class="btn btn-primary" onclick="EditExperience('${experience.id}', event)">Edit</button>
+    <button class="btn btn-danger" onclick="removeExperience('${experience.id}', event)">Remove</button>
+
+    </div>
+  </div>
+
+    `;
+  });
+};
+
+let editModeExperience = false;
+let editIdExperience = "";
 
 const AddMoreExperience = () => {
-  const uuid =
-    Math.random().toString(36).substring(2) + Date.now().toString(36);
-  // Populate Work Experiences
-  const workExperience = {
-    id: uuid,
-    company: document.getElementById("company-name").value,
-    position: document.getElementById("job-position").value,
-    from: document.getElementById("date-from").value,
-    to: document.getElementById("date-to").value,
-    location: document.getElementById("location").value,
-  };
-  Person.workExperiences.push(workExperience);
+  const companyName = document.getElementById("company-name").value;
+  const jobPosition = document.getElementById("job-position").value;
+  const dateFrom = document.getElementById("date-from").value;
+  const dateTo = document.getElementById("date-to").value;
+  const location = document.getElementById("location").value;
 
+  if (editModeExperience) {
+    Person.workExperiences = Person.workExperiences.map((experience) => {
+      if (editIdExperience === experience.id) {
+        return {
+          ...experience,
+          company: companyName,
+          position: jobPosition,
+          from: dateFrom,
+          to: dateTo,
+          location: location,
+        };
+      }
+      return experience;
+    });
+
+    editModeExperience = false;
+    editIdExperience = "";
+  } else {
+    const uuid =
+      Math.random().toString(36).substring(2) + Date.now().toString(36);
+
+    // Populate Work Experiences
+    const workExperience = {
+      id: uuid,
+      company: companyName,
+      position: jobPosition,
+      from: dateFrom,
+      to: dateTo,
+      location: location,
+    };
+    Person.workExperiences.push(workExperience);
+  }
+
+  RefreshExperience(Person.workExperiences);
   // Reset the form
   document.getElementById("company-name").value = "";
   document.getElementById("job-position").value = "";
@@ -443,6 +521,26 @@ const AddMoreExperience = () => {
   document.getElementById("location").value = "";
 };
 
+const EditExperience = (id, event) => {
+  event.preventDefault(); // Prevent form submission behavior
+  const ExperienceButton = document.getElementById("ExperienceButton");
+  editModeExperience = true;
+  editIdExperience = id;
+
+  const experience = Person.workExperiences.find(
+    (experience) => experience.id === id
+  );
+
+  if (editModeExperience) {
+    ExperienceButton.innerHTML = " Update";
+  }
+  // Fill the form with the current experience details
+  document.getElementById("company-name").value = experience.company;
+  document.getElementById("job-position").value = experience.position;
+  document.getElementById("date-from").value = experience.from;
+  document.getElementById("date-to").value = experience.to;
+  document.getElementById("location").value = experience.location;
+};
 // Generate Resume
 
 const GenerateResume = () => {
