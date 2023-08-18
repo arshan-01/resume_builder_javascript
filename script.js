@@ -320,7 +320,7 @@ const Refresh = (academicDetails) => {
     <div class="col-md-3">
       <p>${academic.course}</p>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 d-flex">
     <button class="btn btn-primary" onclick="editAcademic('${academic.id}', event)">Edit</button>
     <button class="btn btn-danger" onclick="removeAcademic('${academic.id}', event)">Remove</button>
 
@@ -331,11 +331,21 @@ const Refresh = (academicDetails) => {
   });
 };
 
+let editMode = false;
+let editId = "";
 const editAcademic = (id, event) => {
+  const AcademicButton = document.getElementById("AcademicButton");
+
   event.preventDefault(); // Prevent form submission behavior
-  const academicDetail = Person.academicDetails.find(
+  editMode = true;
+  editId = id;
+  let academicDetail = Person.academicDetails.find(
     (academic) => academic.id === id
   );
+
+  if (editMode) {
+    AcademicButton.innerHTML = "Update";
+  }
 
   // Fill the form with the current academic detail
   document.getElementById("degree").value = academicDetail.degree;
@@ -356,21 +366,52 @@ const removeAcademic = (id, event) => {
 };
 
 const AddMoreAcademic = () => {
-  const uuid =
-    Math.random().toString(36).substring(2) + Date.now().toString(36);
-  console.log(uuid);
+  if (editMode) {
+    Person.academicDetails = Person.academicDetails.map((academic) => {
+      if (academic.id === editId) {
+        academic.degree = document.getElementById("degree").value;
+        academic.institute = document.getElementById("university").value;
+        academic.year = document.getElementById("completion-year").value;
+        academic.course = document.getElementById("course-title").value;
+      }
+      return academic;
+    });
+  } else {
+    const degree = document.getElementById("degree").value;
+    const university = document.getElementById("university").value;
+    const completionYear = document.getElementById("completion-year").value;
+    const courseTitle = document.getElementById("course-title").value;
 
-  // Populate AcademicDetails
-  const academicDetail = {
-    id: uuid,
-    degree: document.getElementById("degree").value,
-    institute: document.getElementById("university").value,
-    year: document.getElementById("completion-year").value,
-    course: document.getElementById("course-title").value,
-  };
-  Person.academicDetails.push(academicDetail);
+    if (
+      degree == "" ||
+      university == "" ||
+      completionYear == "" ||
+      courseTitle == ""
+    ) {
+      alert("Please fill all the fields");
+      return false;
+    }
+
+    const uuid =
+      Math.random().toString(36).substring(2) + Date.now().toString(36);
+    console.log(uuid);
+
+    // Populate AcademicDetails
+    const academicDetail = {
+      id: uuid,
+      degree: degree,
+      institute: university,
+      year: completionYear,
+      course: courseTitle,
+    };
+    Person.academicDetails.push(academicDetail);
+  }
 
   Refresh(Person.academicDetails);
+  // Reset edit mode and editId
+  editMode = false;
+  editId = "";
+
   // Reset the form
   document.getElementById("degree").value = "";
   document.getElementById("university").value = "";
