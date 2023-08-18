@@ -49,113 +49,128 @@ const Person = {
   mobileNumber: "",
   email: "",
   dob: "",
-  currentAddress: "",
-  permanentAddress: "",
+  currentAddress: {
+    address: "",
+    city: "",
+    country: "",
+  },
+  permanentAddress: {
+    address: "",
+    city: "",
+    country: "",
+  },
   academicDetails: [],
   skills: [],
   interestedIndustries: [],
   workExperiences: [],
 };
 
-const AcademicDetails = {
-  degree: "",
-  institute: "",
-  year: "",
-  percentage: "",
+// Handle Skills
+
+const selectedSkill = [];
+
+function selectSkill(skill) {
+  if (!Person.skills.includes(skill)) {
+    Person.skills.push(skill);
+    selectedSkill.push(skill);
+    handleSelectSkills();
+  }
+}
+
+function unselectSkill(skill) {
+  const skillIndex = Person.skills.indexOf(skill);
+  if (skillIndex !== -1) {
+    Person.skills.splice(skillIndex, 1);
+    handleSelectSkills();
+  }
+}
+const handleSelectSkills = () => {
+  const availableSkills = document.getElementById("available-skills");
+  const selectedSkills = document.getElementById("selected-skills");
+
+  availableSkills.innerHTML = AllSkills.map(
+    (skill) => `
+    <button type="button" class="btn btn-light m-2 ${
+      Person.skills.includes(skill) ? "btn-disabled" : ""
+    }" ${Person.skills.includes(skill) ? "disabled" : ""}
+        style="${
+          Person.skills.includes(skill)
+            ? "background-color: #f0f0f0; color: #999999;"
+            : ""
+        }"
+        onclick="selectSkill('${skill}')">
+        ${skill}
+      </button>
+    `
+  ).join("");
+
+  selectedSkills.innerHTML =
+    Person.skills && Person.skills.length > 0
+      ? Person.skills
+          .map(
+            (skill) => `
+      <button type="button" class="btn btn-secondary m-2 " onclick="unselectSkill('${skill}')">
+        ${skill}
+      </button>
+    `
+          )
+          .join("")
+      : "You have not select any skill";
+  // Reset the initial height if the wishlist is not empty
+  if (Person.skills && Person.skills.length > 0) {
+    Person.skills.style.minHeight = "auto";
+  }
 };
+handleSelectSkills();
 
-const Skill = {
-  name: "",
-};
+// Event listener for form submission
+function GenerateCV() {
+  // Populate Person object
+  Person.fullName = document.getElementById("fullName").value;
+  Person.email = document.getElementById("email").value;
+  Person.mobileNumber = document.getElementById("mobileNumber").value;
+  Person.dob = document.getElementById("dob").value;
 
-const InterestedIndustry = {
-  name: "",
-};
+  // Populate Current Address
 
-const WorkExperience = {
-  company: "",
-  designation: "",
-  from: "",
-  to: "",
-  description: "",
-};
+  const curAddress = document.getElementById("currentAddress").value;
+  Person.currentAddress.address = curAddress;
+  const curCity = document.getElementById("currentCity").value;
+  Person.currentAddress.city = curCity;
+  const curCountry = document.getElementById("currentCountry");
 
-const PersonForm = document.getElementById("person-form");
-const AcademicDetailsForm = document.getElementById("academic-details-form");
-const SkillForm = document.getElementById("skill-form");
+  Person.currentAddress.country = curCountry.value;
 
-const PersonFormSubmitButton = document.getElementById(
-  "person-form-submit-button"
-);
-const AcademicDetailsFormSubmitButton = document.getElementById(
-  "academic-details-form-submit-button"
-);
-const SkillFormSubmitButton = document.getElementById(
-  "skill-form-submit-button"
-);
+  // Populate Permanent Address
+  const perAddress = document.getElementById("permanentAddress");
+  Person.permanentAddress.address = perAddress.value;
+  const perCity = document.getElementById("permanentCity");
+  Person.permanentAddress.city = perCity.value;
+  const perCountry = document.getElementById("permanentCountry");
+  Person.permanentAddress.country = perCountry.value;
 
-const PersonFormResetButton = document.getElementById(
-  "person-form-reset-button"
-);
-const AcademicDetailsFormResetButton = document.getElementById(
-  "academic-details-form-reset-button"
-);
-const SkillFormResetButton = document.getElementById("skill-form-reset-button");
+  // Populate AcademicDetails
+  const academicDetail = {
+    degree: document.getElementById("degree").value,
+    institute: document.getElementById("university").value,
+    year: document.getElementById("completion-year").value,
+    course: document.getElementById("course-title").value,
+  };
+  Person.academicDetails.push(academicDetail);
 
-const PersonFormInputs = document.querySelectorAll("#person-form input");
-const AcademicDetailsFormInputs = document.querySelectorAll(
-  "#academic-details-form input"
-);
+  // Populate Work Experiences
+  // Populate Work Experiences
+  const workExperience = {
+    company: document.getElementById("company-name").value,
+    position: document.getElementById("job-position").value,
+    from: document.getElementById("date-from").value,
+    to: document.getElementById("date-to").value,
+    location: document.getElementById("location").value,
+  };
+  Person.workExperiences.push(workExperience);
 
-const PersonFormSelects = document.querySelectorAll("#person-form select");
-const AcademicDetailsFormSelects = document.querySelectorAll(
-  "#academic-details-form select"
-);
+  // Do something with the populated Person object, such as displaying it or sending it to a server.
+  console.log(Person);
+}
 
-const PersonFormTextareas = document.querySelectorAll("#person-form textarea");
-const AcademicDetailsFormTextareas = document.querySelectorAll(
-  "#academic-details-form textarea"
-);
-
-const PersonFormErrorMessages = document.querySelectorAll(
-  "#person-form .error-message"
-);
-const AcademicDetailsFormErrorMessages = document.querySelectorAll(
-  "#academic-details-form .error-message"
-);
-
-const PersonFormErrorMessagesText = document.querySelectorAll(
-  "#person-form .error-message-text"
-);
-const AcademicDetailsFormErrorMessagesText = document.querySelectorAll(
-  "#academic-details-form .error-message-text"
-);
-
-const PersonFormErrorMessagesIcons = document.querySelectorAll(
-  "#person-form .error-message-icon"
-);
-const AcademicDetailsFormErrorMessagesIcons = document.querySelectorAll(
-  "#academic-details-form .error-message-icon"
-);
-
-const PersonFormErrorMessagesCloseButtons = document.querySelectorAll(
-  "#person-form .error-message-close-button"
-);
-const AcademicDetailsFormErrorMessagesCloseButtons = document.querySelectorAll(
-  "#academic-details-form .error-message-close-button"
-);
-
-const PersonFormErrorMessagesCloseIcons = document.querySelectorAll(
-  "#person-form .error-message-close-icon"
-);
-const AcademicDetailsFormErrorMessagesCloseIcons = document.querySelectorAll(
-  "#academic-details-form .error-message-close-icon"
-);
-
-const PersonFormErrorMessagesCloseIconSpans = document.querySelectorAll(
-  "#person-form .error-message-close-icon span"
-);
-const AcademicDetailsFormErrorMessagesCloseIconSpans =
-  document.querySelectorAll(
-    "#academic-details-form .error-message-close-icon span"
-  );
+// map all skills to the left box

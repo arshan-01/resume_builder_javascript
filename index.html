@@ -34,23 +34,21 @@
             <div class="custom-form">
               <form>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="form-group app-label">
-                      <label for="frist-name" class="text-muted"
-                        >Full Name</label
-                      >
+                      <label for="fullName" class="text-muted">Full Name</label>
                       <input
-                        id="full-name"
+                        id="fullName"
                         type="text"
                         class="form-control resume"
-                        placeholder=""
+                        placeholder="Full Name"
                       />
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="form-group app-label">
-                      <label for="middle-name" class="text-muted">Email</label>
+                      <label for="email" class="text-muted">Email</label>
                       <input
                         id="email"
                         type="email"
@@ -60,11 +58,11 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="form-group app-label">
-                      <label for="surname-name" class="text-muted">Phone</label>
+                      <label for="mobileNumber" class="text-muted">Phone</label>
                       <input
-                        id="phone"
+                        id="mobileNumber"
                         type="text"
                         class="form-control resume"
                         placeholder=""
@@ -72,13 +70,11 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="form-group app-label">
-                      <label for="date-of-birth" class="text-muted"
-                        >Date Of Birth</label
-                      >
+                      <label for="dob" class="text-muted">Date Of Birth</label>
                       <input
-                        id="date-of-birth"
+                        id="dob"
                         type="date"
                         class="form-control resume"
                         placeholder=""
@@ -107,10 +103,10 @@
                   <h5>Current Address</h5>
                   <div class="col-md-8">
                     <div class="form-group app-label">
-                      <label for="current-city" class="text-muted">City</label>
+                      <label for="currentCity" class="text-muted">City</label>
                       <div class="form-button">
                         <input
-                          id="current-city"
+                          id="currentCity"
                           type="text"
                           class="form-control resume"
                           placeholder=""
@@ -121,11 +117,11 @@
 
                   <div class="col-md-4">
                     <div class="form-group app-label">
-                      <label for="current-country" class="text-muted"
+                      <label for="currentCountry" class="text-muted"
                         >Country</label
                       >
                       <div class="form-button">
-                        <select class="nice-select">
+                        <select class="nice-select" id="currentCountry">
                           <option data-display="Country" disabled selected>
                             Country
                           </option>
@@ -140,9 +136,9 @@
                     </div>
                   </div>
                   <div class="form-group app-label">
-                    <label for="current-address"> Address</label>
+                    <label for="currentAddress"> Address</label>
                     <textarea
-                      id="current-address"
+                      id="currentAddress"
                       rows="4"
                       class="form-control resume"
                       placeholder=""
@@ -153,12 +149,10 @@
                   <h5>Permanent Address</h5>
                   <div class="col-md-8">
                     <div class="form-group app-label">
-                      <label for="permanent-city" class="text-muted"
-                        >City</label
-                      >
+                      <label for="permanentCity" class="text-muted">City</label>
                       <div class="form-button">
                         <input
-                          id="permanent-city"
+                          id="permanentCity"
                           type="text"
                           class="form-control resume"
                           placeholder=""
@@ -169,11 +163,11 @@
 
                   <div class="col-md-4">
                     <div class="form-group app-label">
-                      <label for="permanent-country" class="text-muted"
+                      <label for="permanentCountry" class="text-muted"
                         >Country</label
                       >
                       <div class="form-button">
-                        <select class="nice-select">
+                        <select class="nice-select" id="permanentCountry">
                           <option data-display="Country" disabled selected>
                             Country
                           </option>
@@ -188,9 +182,9 @@
                     </div>
                   </div>
                   <div class="form-group app-label">
-                    <label for="permanent-address"> Address</label>
+                    <label for="permanentAddress"> Address</label>
                     <textarea
-                      id="parmanent-address"
+                      id="permanentAddress"
                       rows="4"
                       class="form-control resume"
                       placeholder=""
@@ -216,11 +210,11 @@
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="form-group app-label">
-                      <label for="degree/certification" class="text-muted"
+                      <label for="degree" class="text-muted"
                         >Degree/Certification</label
                       >
                       <input
-                        id="degree/certification"
+                        id="degree"
                         type="text"
                         class="form-control resume"
                         placeholder=""
@@ -230,11 +224,11 @@
 
                   <div class="col-md-6">
                     <div class="form-group app-label">
-                      <label for="university/college" class="text-muted"
+                      <label for="university" class="text-muted"
                         >University/College</label
                       >
                       <input
-                        id="university/college"
+                        id="university"
                         type="text"
                         class="form-control resume"
                         placeholder=""
@@ -303,28 +297,16 @@
               <form>
                 <div class="row">
                   <div class="col-lg-6">
-                    <div class="form-group app-label">
-                      <label for="skills" class="text-muted"
-                        >Select your Skills</label
-                      >
-                      <br />
+                    <div class="form-group app-label" id="available-skills">
                       <!--List of skills with on click  -->
-                      <button type="button" class="btn btn-light m-2">
-                        Html
-                      </button>
                     </div>
                   </div>
 
                   <div class="col-lg-6">
-                    <div class="form-group app-label">
-                      <label for="Selected-skill" class="text-muted"
-                        >Selected Skill</label
-                      >
-                      <br />
-                      <span type="button" class="btn btn-secondary m-2">
-                        Html
-                      </span>
-                    </div>
+                    <div
+                      class="form-group app-label"
+                      id="selected-skills"
+                    ></div>
                   </div>
                 </div>
               </form>
@@ -418,13 +400,13 @@
                     <div class="form-group app-label">
                       <label for="location" class="text-muted">Location</label>
                       <div class="form-button">
-                        <select class="nice-select">
+                        <select class="nice-select" id="location">
                           <option data-display="Search">Search</option>
-                          <option value="1">New York</option>
-                          <option value="2">Los Angeles</option>
-                          <option value="3">Chicago</option>
-                          <option value="4">Houston</option>
-                          <option value="5">Indiana</option>
+                          <option value="New Yor">New York</option>
+                          <option value="Los Angeles">Los Angeles</option>
+                          <option value="Chicago">Chicago</option>
+                          <option value="Houston">Houston</option>
+                          <option value="Indiana">Indiana</option>
                         </select>
                       </div>
                     </div>
@@ -439,7 +421,7 @@
                           >
                           <input
                             id="date-from"
-                            type="text"
+                            type="date"
                             class="form-control resume"
                             placeholder="01-Jan-2018"
                           />
@@ -453,7 +435,7 @@
                           >
                           <input
                             id="date-to"
-                            type="text"
+                            type="date"
                             class="form-control resume"
                             placeholder="31-March-2019"
                           />
@@ -485,6 +467,7 @@
               name="send"
               class="submitBnt btn btn-primary mt-5"
               value="Submit Resume"
+              onclick="GenerateCV()"
             />
           </div>
         </div>
