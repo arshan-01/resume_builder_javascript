@@ -1,5 +1,3 @@
-console.log("Hello, world!");
-
 // 1.	Make a JavaScript program which will get a person’s details and generate CV. The form to get candidate’s inform must have the following features:
 // a.	Complete name.
 // i.	Complete name will be a required field.
@@ -292,6 +290,17 @@ function GenerateCV() {
   const perCountry = document.getElementById("permanentCountry");
   Person.permanentAddress.country = perCountry.value;
 
+  if (
+    curAddress == "" ||
+    curCity == "" ||
+    curCountry == "" ||
+    perAddress == "" ||
+    perCity == "" ||
+    perCountry == ""
+  ) {
+    alert("Please fill address the fields");
+    return false;
+  }
   // Do something with the populated Person object, such as displaying it or sending it to a server.
   console.log(Person);
   GenerateResume();
@@ -479,6 +488,16 @@ const AddMoreExperience = () => {
   const dateTo = document.getElementById("date-to").value;
   const location = document.getElementById("location").value;
 
+  if (
+    companyName == "" ||
+    jobPosition == "" ||
+    dateFrom == "" ||
+    location == ""
+  ) {
+    alert("Please fill all the fields");
+    return false;
+  }
+
   if (editModeExperience) {
     Person.workExperiences = Person.workExperiences.map((experience) => {
       if (editIdExperience === experience.id) {
@@ -554,14 +573,21 @@ const GenerateResume = () => {
     <p>
       I’m a full-stack web developer with over 16 years of experience. Software development is a fulfilling and rewarding job for me. I love to execute big ideas, and I want to use my talents to solve problems and make life easier for people. I jump at the chance to learn new things. I take great pride in my work and the fact that I create things that others find useful.
     </p>
+   
     <p>
-      <strong>Skills:</strong>
-      ${Person.skills
-        .map((skill) => `<span class="badge badge-info">${skill}</span>`)
-        .join("")}
-    </p>
+  ${Person.skills.length > 0 ? "<strong>Skills:</strong>" : ""}
+  ${Person.skills
+    .map((skill) => `<span class="badge badge-info">${skill}</span>`)
+    .join("")}
+</p>
+
     <p>
-      <strong>Interested Industries:</strong>
+    ${
+      Person.interestedIndustries.length > 0
+        ? " <strong>Interested Industries:</strong>"
+        : ""
+    }
+     
       ${Person.interestedIndustries
         .map((Industry) => `<span class="badge badge-info">${Industry}</span>`)
         .join("")}
@@ -570,7 +596,8 @@ const GenerateResume = () => {
 
   <!-- EXPERIENCE --------------------------------------------->
   <section id="experience" class="container">
-    <h1>Experience</h1>
+  ${Person.workExperiences.length > 0 ? "<h1>Experience</h1>" : ""}
+  
     ${Person.workExperiences
       .map(
         (experience, index) => `
@@ -599,7 +626,7 @@ const GenerateResume = () => {
 
   <!-- ACADEMIC DETAILS --------------------------------------------->
   <section id="academic-details" class="container">
-    <h1>Academic Details</h1>
+   ${Person.academicDetails.length > 0 ? "<h1>Academic Details</h1>" : ""}
     <ul>
       ${Person.academicDetails
         .map(
