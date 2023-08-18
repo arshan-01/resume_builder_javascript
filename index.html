@@ -294,15 +294,23 @@
         <div class="col-lg-12">
           <div class="job-detail mt-2 p-4">
             <div class="custom-form">
-              <form>
+              <form id="form">
                 <div class="row">
                   <div class="col-lg-6">
                     <div class="form-group app-label" id="available-skills">
-                      <label for="available-skills" class="text-muted"
-                        >Select your Skills</label
-                      >
-                      <br />
-                      <!--List of skills with on click  -->
+                      <div class="wrapper">
+                        <div class="content">
+                          <p>Press enter or add a comma after each skill</p>
+                          <input
+                            type="text"
+                            class="form-control resume"
+                            placeholder="Add a tag"
+                            id="tagInput"
+                            spellcheck="false"
+                            onkeyup="handleTagInput(event)"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -311,8 +319,18 @@
                       <label for="selected-skill" class="text-muted"
                         >Selected Skill</label
                       >
-                      <br />
-                      <!--List of skills with on click  -->
+                      <div class="wrapper">
+                        <div class="content">
+                          <ul id="tagList">
+                            <!-- Tags will be dynamically added here -->
+                          </ul>
+                          <div class="details">
+                            <button type="button" onclick="removeAllTags()">
+                              Remove All
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -321,6 +339,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-lg-12">
           <h3 class="text-dark mt-5">Interested industries</h3>

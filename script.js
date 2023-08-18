@@ -66,59 +66,63 @@ const Person = {
 };
 
 // Handle Skills
+const tagList = document.getElementById("tagList");
+const tagInput = document.getElementById("tagInput");
+const form = document.getElementById("form"); // Get the form element
 
-const selectedSkill = [];
+const tags = [];
 
-function selectSkill(skill) {
-  if (!Person.skills.includes(skill)) {
-    Person.skills.push(skill);
-    selectedSkill.push(skill);
-    handleSelectSkills();
-  }
-}
-
-function unselectSkill(skill) {
-  const skillIndex = Person.skills.indexOf(skill);
-  if (skillIndex !== -1) {
-    Person.skills.splice(skillIndex, 1);
-    handleSelectSkills();
-  }
-}
-const handleSelectSkills = () => {
-  const availableSkills = document.getElementById("available-skills");
-  const selectedSkills = document.getElementById("selected-skills");
-
-  availableSkills.innerHTML = AllSkills.map(
-    (skill) => `
-    <button type="button" class="btn btn-light m-2 ${
-      Person.skills.includes(skill) ? "btn-disabled" : ""
-    }" ${Person.skills.includes(skill) ? "disabled" : ""}
-        style="${
-          Person.skills.includes(skill)
-            ? "background-color: #f0f0f0; color: #999999;"
-            : ""
-        }"
-        onclick="selectSkill('${skill}')">
-        ${skill}
-      </button>
-    `
-  ).join("");
-
-  selectedSkills.innerHTML =
+function updateTagList() {
+  tagList.innerHTML =
     Person.skills && Person.skills.length > 0
       ? Person.skills
           .map(
-            (skill) => `
-      <button type="button" class="btn btn-secondary m-2 " onclick="unselectSkill('${skill}')">
-        ${skill}
-      </button>
-    `
+            (tag) => `
+        <li class="tag">
+          ${tag}
+          <span class="remove-tag" onclick="removeTag('${tag}')">&times;</span>
+        </li>
+      `
           )
           .join("")
-      : "You have not select any skill";
-  // Reset the initial height if the wishlist is not empty
-};
-handleSelectSkills();
+      : `<li class="tag">
+      No skills added yet
+      </li>`;
+}
+
+function addTag(tag) {
+  if (tag && !Person.skills.includes(tag.trim())) {
+    Person.skills.push(tag.trim());
+    tagInput.value = "";
+    updateTagList();
+  }
+}
+
+function removeTag(tag) {
+  const index = Person.skills.indexOf(tag);
+  if (index !== -1) {
+    Person.skills.splice(index, 1);
+    updateTagList();
+  }
+}
+
+function handleTagInput(event) {
+  if (event.key === "Enter" || event.key === ",") {
+    const tag = tagInput.value.replace(/,/g, "").trim();
+    addTag(tag);
+  }
+}
+
+function removeAllTags() {
+  Person.skills.length = 0;
+  updateTagList();
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+
+updateTagList();
 
 // Event listener for form submission
 function GenerateCV() {
