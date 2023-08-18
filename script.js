@@ -117,9 +117,6 @@ const handleSelectSkills = () => {
           .join("")
       : "You have not select any skill";
   // Reset the initial height if the wishlist is not empty
-  if (Person.skills && Person.skills.length > 0) {
-    Person.skills.style.minHeight = "auto";
-  }
 };
 handleSelectSkills();
 
