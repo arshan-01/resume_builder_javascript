@@ -143,3 +143,85 @@ body {
 .suggestion:hover {
   background-color: #f0f0f0;
 }
+.IndustrySuggestions {
+  position: absolute;
+  background-color: white;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 150px;
+  overflow-y: auto;
+  width: 33%;
+  z-index: 2;
+}
+
+.IndustrySuggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.IndustrySuggestion:hover {
+  background-color: #f0f0f0;
+}
+
+#about {
+  text-align: center;
+  padding: 40px;
+}
+#about img {
+  width: 200px;
+  border-radius: 100%;
+}
+#about h1 {
+  margin: 25px;
+}
+section {
+  padding-bottom: 40px;
+}
+.card .card-header {
+  cursor: pointer;
+}
+#addresses {
+  display: flex;
+  justify-content: space-between;
+}
+
+.address {
+  width: 48%; /* Adjust this value to control the width of each address column */
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+/* Add this CSS code to your stylesheet or <style> tag */
+#academic-details {
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#academic-details h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#academic-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+#academic-details li {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+#academic-details h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#academic-details p {
+  margin: 5px 0;
+}

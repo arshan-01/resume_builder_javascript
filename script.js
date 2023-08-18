@@ -91,13 +91,14 @@ const tagList = document.getElementById("tagList");
 const tagInput = document.getElementById("tagInput");
 const suggestions = document.getElementById("suggestions"); // Suggestions container
 const form = document.getElementById("form"); // Get the form element
+const form2 = document.getElementById("form2"); // Get the form element
 
 const tags = [];
 
 function updateTagList() {
   tagList.innerHTML =
-    tags && tags.length > 0
-      ? tags
+    Person.skills && Person.skills.length > 0
+      ? Person.skills
           .map(
             (tag) => `
         <li class="tag">
@@ -113,8 +114,8 @@ function updateTagList() {
 }
 
 function addTag(tag) {
-  if (tag && !tags.includes(tag.trim())) {
-    tags.push(tag.trim());
+  if (tag && !Person.skills.includes(tag.trim())) {
+    Person.skills.push(tag.trim());
     tagInput.value = "";
     suggestions.innerHTML = ""; // Clear suggestions
     updateTagList();
@@ -122,9 +123,9 @@ function addTag(tag) {
 }
 
 function removeTag(tag) {
-  const index = tags.indexOf(tag);
+  const index = Person.skills.indexOf(tag);
   if (index !== -1) {
-    tags.splice(index, 1);
+    Person.skills.splice(index, 1);
     updateTagList();
   }
 }
@@ -137,7 +138,7 @@ function handleTagInput(event) {
     const matchingSuggestions = suggestedSkills.filter(
       (skill) =>
         skill.toLowerCase().includes(inputSkill.toLowerCase()) &&
-        !tags.includes(skill)
+        !Person.skills.includes(skill)
     );
 
     const suggestionElements = matchingSuggestions.map((suggestion) => {
@@ -159,11 +160,14 @@ function handleTagInput(event) {
 }
 
 function removeAllTags() {
-  tags.length = 0;
+  Person.skills.length = 0;
   updateTagList();
 }
 
 form.addEventListener("submit", function (event) {
+  event.preventDefault();
+});
+form2.addEventListener("submit", function (event) {
   event.preventDefault();
 });
 
@@ -174,12 +178,10 @@ const industryList = document.getElementById("industryList");
 const industryInput = document.getElementById("industryInput");
 const industrySuggestions = document.getElementById("IndustrySuggestions"); // Suggestions container for industries
 
-const industries = [];
-
 function updateIndustryList() {
   industryList.innerHTML =
-    industries && industries.length > 0
-      ? industries
+    Person.interestedIndustries && Person.interestedIndustries.length > 0
+      ? Person.interestedIndustries
           .map(
             (industry) => `
         <li class="industry">
@@ -195,8 +197,8 @@ function updateIndustryList() {
 }
 
 function addIndustry(industry) {
-  if (industry && !industries.includes(industry.trim())) {
-    industries.push(industry.trim());
+  if (industry && !Person.interestedIndustries.includes(industry.trim())) {
+    Person.interestedIndustries.push(industry.trim());
     industryInput.value = "";
     industrySuggestions.innerHTML = ""; // Clear suggestions
     updateIndustryList();
@@ -204,9 +206,9 @@ function addIndustry(industry) {
 }
 
 function removeIndustry(industry) {
-  const index = industries.indexOf(industry);
+  const index = Person.interestedIndustries.indexOf(industry);
   if (index !== -1) {
-    industries.splice(index, 1);
+    Person.interestedIndustries.splice(index, 1);
     updateIndustryList();
   }
 }
@@ -219,12 +221,12 @@ function handleIndustryInput(event) {
     const matchingSuggestions = suggestedIndustries.filter(
       (industry) =>
         industry.toLowerCase().includes(inputIndustry.toLowerCase()) &&
-        !industries.includes(industry)
+        !Person.interestedIndustries.includes(industry)
     );
 
     const suggestionElements = matchingSuggestions.map((suggestion) => {
       const suggestionElement = document.createElement("div");
-      suggestionElement.className = "suggestion";
+      suggestionElement.className = "IndustrySuggestion";
       suggestionElement.textContent = suggestion;
       suggestionElement.addEventListener("click", () =>
         addIndustry(suggestion)
@@ -243,7 +245,7 @@ function handleIndustryInput(event) {
 }
 
 function removeAllIndustries() {
-  industries.length = 0;
+  Person.interestedIndustries.length = 0;
   updateIndustryList();
 }
 
@@ -260,6 +262,17 @@ function GenerateCV() {
   Person.email = document.getElementById("email").value;
   Person.mobileNumber = document.getElementById("mobileNumber").value;
   Person.dob = document.getElementById("dob").value;
+  // Validate
+
+  if (
+    Person.fullName == "" ||
+    Person.email == "" ||
+    Person.mobileNumber == "" ||
+    Person.dob == ""
+  ) {
+    alert("Please fill all the fields");
+    return false;
+  }
 
   // Populate Current Address
 
@@ -279,6 +292,12 @@ function GenerateCV() {
   const perCountry = document.getElementById("permanentCountry");
   Person.permanentAddress.country = perCountry.value;
 
+  // Do something with the populated Person object, such as displaying it or sending it to a server.
+  console.log(Person);
+  GenerateResume();
+}
+
+const AddMoreAcademic = () => {
   // Populate AcademicDetails
   const academicDetail = {
     degree: document.getElementById("degree").value,
@@ -288,6 +307,16 @@ function GenerateCV() {
   };
   Person.academicDetails.push(academicDetail);
 
+  // Reset the form
+  document.getElementById("degree").value = "";
+  document.getElementById("university").value = "";
+  document.getElementById("completion-year").value = "";
+  document.getElementById("course-title").value = "";
+};
+
+// Add Experience
+
+const AddMoreExperience = () => {
   // Populate Work Experiences
   const workExperience = {
     company: document.getElementById("company-name").value,
@@ -298,6 +327,117 @@ function GenerateCV() {
   };
   Person.workExperiences.push(workExperience);
 
-  // Do something with the populated Person object, such as displaying it or sending it to a server.
-  console.log(Person);
-}
+  // Reset the form
+  document.getElementById("company-name").value = "";
+  document.getElementById("job-position").value = "";
+  document.getElementById("date-from").value = "";
+  document.getElementById("date-to").value = "";
+  document.getElementById("location").value = "";
+};
+
+// Generate Resume
+
+const GenerateResume = () => {
+  const resume = document.getElementById("resume");
+  resume.innerHTML = `
+  
+  <!--| ABOUT |--------------------------------------------------->
+  <section id="about" class="container">
+   
+    <h1 class="display-4">${Person.fullName}</h1>
+    <p>
+      I’m a full-stack web developer with over 16 years of experience. Software development is a fulfilling and rewarding job for me. I love to execute big ideas, and I want to use my talents to solve problems and make life easier for people. I jump at the chance to learn new things. I take great pride in my work and the fact that I create things that others find useful.
+    </p>
+    <p>
+      <strong>Skills:</strong>
+      ${Person.skills
+        .map((skill) => `<span class="badge badge-info">${skill}</span>`)
+        .join("")}
+    </p>
+    <p>
+      <strong>Interested Industries:</strong>
+      ${Person.interestedIndustries
+        .map((Industry) => `<span class="badge badge-info">${Industry}</span>`)
+        .join("")}
+    </p>
+  </section>
+
+  <!-- EXPERIENCE --------------------------------------------->
+  <section id="experience" class="container">
+    <h1>Experience</h1>
+    ${Person.workExperiences
+      .map(
+        (experience, index) => `
+    <div class="card">
+      <div class="card-header ${
+        index === 0 ? "collapse show" : ""
+      }" data-toggle="collapse" data-target="#exp${index + 1}">
+        <div class="row">
+          <h5 class="col-md-8 mb-0">${experience.position}</h5>
+          <em class="col-md-4 text-md-right">${experience.from} - ${
+          experience.to
+        }</em>
+        </div>
+      </div>
+      <div class="card-block collapse ${index === 0 ? "show" : ""}" id="exp${
+          index + 1
+        }">
+        <h5>${experience.company} - ${experience.location}</h5>
+        <p>I’m a full-stack web developer with over 16 years of experience. Software development is a fulfilling and rewarding job for me. I love to execute big ideas, and I want to use my talents to solve problems and make life easier for people. I jump at the chance to learn new things. I take great pride in my work and the fact that I create things that others find useful.</p>
+      </div>
+    </div>
+    `
+      )
+      .join("")}
+  </section>
+
+  <!-- ACADEMIC DETAILS --------------------------------------------->
+  <section id="academic-details" class="container">
+    <h1>Academic Details</h1>
+    <ul>
+      ${Person.academicDetails
+        .map(
+          (academicDetail) => `
+          <li>
+            <h3>${academicDetail.degree}</h3>
+            <p><strong>Institute:</strong> ${academicDetail.institute}</p>
+            <p><strong>Year:</strong> ${academicDetail.year}</p>
+            <p><strong>Course:</strong> ${academicDetail.course}</p>
+          </li>
+        `
+        )
+        .join("")}
+    </ul>
+  </section>
+  <!-- CURRENT AND PERMANENT ADDRESS -------------------------------------------->
+  <section id="addresses" class="container">
+    <div class="address">
+      <h2>Current Address</h2>
+      <p><strong>Address:</strong> ${Person.currentAddress.address}</p>
+      <p><strong>City:</strong> ${Person.currentAddress.city}</p>
+      <p><strong>Country:</strong> ${Person.currentAddress.country}</p>
+    </div>
+    <div class="address">
+      <h2>Permanent Address</h2>
+      <p><strong>Address:</strong> ${Person.permanentAddress.address}</p>
+      <p><strong>City:</strong> ${Person.permanentAddress.city}</p>
+      <p><strong>Country:</strong> ${Person.permanentAddress.country}</p>
+    </div>
+  </section>
+  <!-- CONTACT ----------------------------------------------------->
+
+  <section class="container" id="contact">
+    <h1>Contact</h1>
+    <div class="row">
+      <div class="col-sm-2">Phone:</div>
+      <div class="col-sm-4">${Person.mobileNumber}</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">Email:</div>
+      <div class="col-sm-4"><a href="mailto:${Person.email}">${
+    Person.email
+  }</a></div>
+    </div>
+  </section>
+  `;
+};
