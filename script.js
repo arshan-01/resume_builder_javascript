@@ -375,28 +375,26 @@ const removeAcademic = (id, event) => {
 };
 
 const AddMoreAcademic = () => {
+  const degree = document.getElementById("degree").value;
+  const institute = document.getElementById("university").value;
+  const year = document.getElementById("completion-year").value;
+  const course = document.getElementById("course-title").value;
   if (editMode) {
     Person.academicDetails = Person.academicDetails.map((academic) => {
       if (academic.id === editId) {
-        academic.degree = document.getElementById("degree").value;
-        academic.institute = document.getElementById("university").value;
-        academic.year = document.getElementById("completion-year").value;
-        academic.course = document.getElementById("course-title").value;
+        return {
+          ...academic,
+          degree: degree,
+          institute: institute,
+          year: year,
+          course: course,
+        };
       }
       return academic;
     });
+    AcademicButton.innerHTML = "Add More";
   } else {
-    const degree = document.getElementById("degree").value;
-    const university = document.getElementById("university").value;
-    const completionYear = document.getElementById("completion-year").value;
-    const courseTitle = document.getElementById("course-title").value;
-
-    if (
-      degree == "" ||
-      university == "" ||
-      completionYear == "" ||
-      courseTitle == ""
-    ) {
+    if (degree == "" || institute == "" || year == "" || course == "") {
       alert("Please fill all the fields");
       return false;
     }
@@ -409,9 +407,9 @@ const AddMoreAcademic = () => {
     const academicDetail = {
       id: uuid,
       degree: degree,
-      institute: university,
-      year: completionYear,
-      course: courseTitle,
+      institute: institute,
+      year: year,
+      course: course,
     };
     Person.academicDetails.push(academicDetail);
   }
@@ -515,6 +513,7 @@ const AddMoreExperience = () => {
 
     editModeExperience = false;
     editIdExperience = "";
+    ExperienceButton.innerHTML = "Add More";
   } else {
     const uuid =
       Math.random().toString(36).substring(2) + Date.now().toString(36);
